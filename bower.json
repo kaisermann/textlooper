@@ -17,5 +17,5 @@
         "**/.*",
         "index.html"
     ],
-    "main": ["dist/visc.js"]
+    "main": ["dist/tiq.js"]
 }
