@@ -1,0 +1,30 @@
+{
+  "name": "ViSC",
+  "version": "1.3.0",
+  "description": "Elements Visibility State Controller",
+  "main": "dist/visc.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chriskaisermann/ViSC.git"
+  },
+  "keywords": [
+    "visibility",
+    "opacity",
+    "visible"
+  ],
+  "author": "Christian Kaisermann",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/chriskaisermann/ViSC/issues"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-jshint": "^1.11.2",
+    "gulp-load-plugins": "^1.0.0-rc.1",
+    "gulp-preprocess": "^1.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-size": "^2.0.0",
+    "gulp-uglify": "^1.3.0"
+  }
+}
