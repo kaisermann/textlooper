@@ -1,168 +1,68 @@
-# ViSC - Visibility State Controller JS
+# Tiq - Timed Invocation Queue
 
-## Why?
-> Have you ever found yourself in the need of knowing how much of an element is visible to, let's say, animate some of it styles depending on the percentage? Well, there you go!
-
-## Compatibility 
-- IE 9+
-- jQuery & Zepto Compatible
-
-## How To Use
-
-#### Details
-- 'Selector' can be a **string**, **node**, an **array of nodes**, a **NodeList** or a **jQuery object**.
-- The events callback and the **'getState'** methods return an array list of the **VisibilityState Object**.
-
-
-#### Vanilla JS
-````
-var selector = ".element";
-
-// Creates a new ViSController
-var visc = new Visc();
-
-// Binds the scroll and resize events with a callback
-// attached to the elements queried by the selector.
-visc.bind(selector, function(states) {});
-
-// Unbind all ViSC events related to the selector
-visc.unbind();
-
-// Gets the visibility state of a selector without
-// binding scroll and resize events. 
-var states = Visc.getState(selector);
-````
-
-#### jQuery / Zepto
-````
-var selector = ".element";
-
-// Binds the scroll and resize events with a callback.
-$(selector).visc(function(states){});
-
-// Unbind all ViSC events related to the selector
-$(selector).unvisc();
-
-// Gets the visibility state of a selector without
-// binding scroll and resize events. 
-var states = $(selector).visc('getState');
-````
-
-### Visibility State Object
-````
-VisibilityState
-{
-	// How much of the element is visible?
-	visibilityRate: { 
-		both: Percentage, 
-		horizontal: Percentage,
-		vertical: Percentage
-	},
-	// How much space does the element occupies in the viewport?
-	occupiedViewport: { 
-		both: Percentage, 
-		horizontal: Percentage,
-		vertical: Percentage
-	},
-	// How much of the element you can see in your viewport?
-	maxVisibility = { 
-		both: Percentage, 
-		horizontal: Percentage,
-		vertical: Percentage
-	},
-	// Frames relative to the element
-	frames = 
-	{
-		window: Rectangle Frame,
-		element: Rectangle Frame,
-		viewport: Rectangle Frame
-	},
-	// If the element is position on the screen (independent of its width and height)
-	onScreen: boolean,
-	// Current Element
-	element: Node
-}
-````
-### Static Methods
-````
-// Gets the visibility state of a selector without
-// binding scroll and resize events. 
-Visc.getState(selector);
-
-// Gets the number of event binded ViSC instances 
-Visc.getNumberOfInstances();
-
-// Checks if a node or collection of nodes is visible on the viewport
-// minValue: how much of each node must be visible to return true (0 to 1)
-Visc.isVisible(selector[,min,[booleanMode]]);
-
-// Checks if a node or a collection of nodes is positioned on the screen 
-// (independent of its width and height)
-Visc.isOnScreen = function (selector[,booleanMode]) 
-````
-
-##### BooleanMode
->In case of a collection parameter, the default behaviour of 'isOnScreen' and 'isVisible' is to check if **all** the nodes are visible/on screen. To change it to return true if **at least** one of the nodes is visible/on screen you can set the parameter **BooleanMode** to **Visc.BooleanMode.OR**.
-````
-Visc.BooleanMode { OR, AND }
-````
-
-## Examples 
-##### Check if all '.blocks' are visible
+## Methods
 ```` 
-var selector = ".block";
-var allVisible = Visc.isVisible(selector);
+// Creates a new tiq
+var tiq = new Tiq();
 
-if(allVisible)
-	console.log("I can see everything!!!!!");
-else
-	console.log("Where did everyone go???");
-````
+// Adds a method to the queue with the specified delay
+tiq.add(delay, function);
 
-##### Check if at least one '.blocks' is visible
-```` 
-var selector = ".block";
-var oneVisibile = Visc.isVisible(selector, 0, Visc.BooleanMode.OR);
+// Starts the queue
+tiq.start();
 
-if(oneVisibile)
-	console.log("Hey, I can see you!! Where are your other friends??");
-else
-	console.log("Where did everyone go???");
-````
+// Start the queue and loop it
+tiq.loop();
 
-##### Check if scroll hit EACH zero width .block.tiny
-```` 
-var selector = ".block.tiny";
-new Visc().bind(selector, function(states)
-{
-	states.forEach(function(state, i)
-	{
-		if(state.onScreen)
-			console.log("Hey, you are very thin, but I can still see you!");
-	});
-});
+// Stops the queue
+tiq.pause();
+
+// Sets the whole queue through an array of [delay, function]
+tiq.setQueue();
+
+// Method be executed before the queue itself
+tiq.before();
+
+// Method executed after the queue ends
+tiq.after();
+
+// Executed at the end of a loop iteration
+tiq.iteration(function(iterationCount));
 ```` 
 
-##### Check if scroll hit ANY zero width .block.tiny
+#### Methods can be chained together
 ```` 
-var selector = ".block.tiny";
-window.addEventListener("scroll", function()
-{
-	var onScreen = Visc.isOnScreen(selector, Visc.BooleanMode.OR);
-	if(onScreen)
-		console.log("Hey, you are very thin, but I can still see you!");
-});
-````
-
-##### Check if scroll hit ALL zero width .block.tiny
+new Tiq().add(...,...).add(...,...).add(...,...).before(...).after(...).start();
 ```` 
-var selector = ".block.tiny";
-window.addEventListener("scroll", function()
-{
-	var onScreen = Visc.isOnScreen(selector, 0);
-	if(onScreen)
-		console.log("Hey, you and your friends are very thin, but I can still see you!");
-});
-````
 
-##### And so on...
+
+## Example
+```` 
+var Tiq = require("./dist/tiq.js");
+
+new Tiq()
+.add(500, function(){ console.log("Print 1"); })  
+.add(500, function(){ console.log("Print 2"); }) 
+.add(500, function(){ console.log("Print 3"); }) 
+.add(200, function(){ console.log("Print 4"); }) 
+.before(function() { console.log("Print 0"); })   
+.after(function() 
+{ 
+	new Tiq()
+	.setQueue([
+		[100, function() { console.log("Loop 1"); }],
+		[100, function() { console.log("Loop 2"); }],
+		[100, function() { console.log("Loop 3"); }],
+		])
+	.before(function(){console.log("Starting loop");})
+	.after(function(){console.log("There's no after while looping (this will never be executed).");})
+	.iteration(function (count) // The iteration number is passed as a parameter
+	{ 
+		console.log("End of one loop iteration " + count);
+		if(count==5)
+			this.pause(); 
+	})
+	.loop();
+})
+.start();
+````
