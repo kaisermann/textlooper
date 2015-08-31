@@ -20,7 +20,7 @@ tiq.pause();
 // Sets the whole queue through an array of [delay, function]
 tiq.setQueue();
 
-// Method be executed before the queue itself
+// Method executed before the queue itself
 tiq.before();
 
 // Method executed after the queue ends
