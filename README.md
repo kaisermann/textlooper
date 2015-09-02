@@ -1,6 +1,6 @@
 ## Whaaaaat?
 
-* A very lightweight text content looper. 
+* A very lightweight text content looper based on CSS animations. 
 * This script uses a **@keyframe** animation to animate elements. That said, I highly recommend using [**Animate.css**](https://daneden.github.io/animate.css/).     
     * Classes used "animated animationName"
 
