@@ -73,7 +73,7 @@
  		waitTransition = function(interval)
  		{
  			if(!_animationEnded)
- 				setTimeout(function(){waitTransition(10, timerHandler);}, interval);
+ 				setTimeout(waitTransition, interval);
  			else
  				setTimeout(timerHandler, getCurrent(_delays, _curIndex) || defaults.delay);
  		};
