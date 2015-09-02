@@ -1,5 +1,5 @@
 /*
- * Text Looper v1.0.3
+ * Text Looper v1.0.5
  * https://github.com/chriskaisermann/textLooper
  * by Christian Kaisermann
  */
@@ -73,7 +73,7 @@
  		waitTransition = function(interval)
  		{
  			if(!_animationEnded)
- 				setTimeout(waitTransition, interval);
+ 				setTimeout(function(){ waitTransition(interval); }, interval);
  			else
  				setTimeout(timerHandler, getCurrent(_delays, _curIndex) || defaults.delay);
  		};
