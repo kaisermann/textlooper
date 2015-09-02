@@ -1,5 +1,5 @@
 /*
- * Text Looper v1.0.0
+ * Text Looper v1.0.3
  * https://github.com/chriskaisermann/textLooper
  * by Christian Kaisermann
  */
