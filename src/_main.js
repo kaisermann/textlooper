@@ -51,6 +51,8 @@
  				_node.addEventListener(prefixes[p]+((!prefixes[p]) ? "animationend" : "AnimationEnd"), animationEnded);
 
  			_node.classList.add("textLooped");
+ 			_node.style.visibility = "visible";
+ 			
  			timerHandler();
  		},
  		animationEnded = function() { _node.classList.remove("animated", _curAnimation); _animationEnded = true; },
