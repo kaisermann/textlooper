@@ -3,7 +3,7 @@
 // Globals
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
-var name = "tiq";
+var name = "textLooper";
 
 // Tasks
 gulp.task('lint', function() 

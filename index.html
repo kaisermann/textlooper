@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>TextLooper</title>
+	<link rel="stylesheet" href="https://daneden.github.io/animate.css/animate.min.css" />
+	<style>
+		body
+		{
+			text-align: center;
+		}
+		span
+		{
+			font-size: 42px;
+			font-family: sans-serif;
+			display: block;
+			margin: 40px 0;
+		}
+	</style>
+</head>
+<body>
+	<!-- Default animation (fadeIn), default delay (1500), default separator (,) -->
+	<span data-textloop>
+		Default, Phrase 1, Phrase 2, Phrase 3
+	</span>
+
+	<!-- Default animation (fadeIn), default delay (1500), custom separator (&) -->
+	<span data-textloop data-textloop-separator="&">
+		Let's, Change & The, Separator & He he
+	</span>
+
+	<!-- Default animation (fadeIn), one delay (1000), custom separator (&) -->
+	<span data-textloop="1000" data-textloop-separator="&">
+		This & will & wait & one & second
+	</span>
+
+	<!-- Default animation (fadeIn), multiple delays -->
+	<span data-textloop="500|500|500|500|1000">
+		Multiple, delays, one, default, animation
+	</span>
+
+	<!-- Default delay (1500), one animation (bounceIn) -->
+	<span data-textloop data-textloop-animation="bounceIn">
+		Default, delay, one, custom, animation
+	</span>
+
+	<!-- Default delay (1500), multiple animations -->
+	<span data-textloop data-textloop-animation="pulse|fadeIn|swing|fadeOut|bounceIn">
+		Multiple, animations, one, default, delay
+	</span>
+
+	<!-- One delay (1000), multiple animations -->
+	<span data-textloop="1000" data-textloop-animation="pulse|fadeIn|swing|fadeOut|bounceIn">
+		Multiple, animations, one, delay
+	</span>
+
+	<!-- Multiple animations, multiple delays -->
+	<span data-textloop="500|500|500|500|1000" data-textloop-animation="pulse|fadeIn|swing|fadeOut|bounceIn">
+		Multiple, animations, on, this, one
+	</span>
+
+	<script src="dist/textLooper.js"></script>
+	<script> TextLooper.setDefaultDelay(100); </script>
+</body>
+</html>

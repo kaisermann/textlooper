@@ -1,21 +1,22 @@
 {
-  "name": "Tiq",
+  "name": "TextLooper",
   "version": "1.0.0",
-  "description": "Timed Invocation Queue",
-  "main": "dist/tiq.js",
+  "description": "Text content rotation",
+  "main": "dist/textlooper.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/chriskaisermann/tiq.git"
+    "url": "https://github.com/chriskaisermann/textLooper.git"
   },
   "keywords": [
-    "chain",
-    "queue",
-    "animation"
+    "text",
+    "rotation",
+    "loop",
+    "timer"
   ],
   "author": "Christian Kaisermann",
   "license": "",
   "bugs": {
-    "url": "https://github.com/chriskaisermann/tiq/issues"
+    "url": "https://github.com/chriskaisermann/textLooper/issues"
   },
   "dependencies": {},
   "devDependencies": {
