@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "homepage": "https://github.com/chriskaisermann/textLooper",
     "authors": [
-        "Christian Kaisermann <christian@kaisermann.it>"
+        "Christian Kaisermann <christian@kaisermann.me>"
     ],
     "description": "Text content rotation",
     "keywords": [
