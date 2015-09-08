@@ -16,7 +16,6 @@
 ###### Obs
 
 * LoopText sets 'visibility: visible' when it starts looping. This way you can hide your phrases before the script runs with a 'visibility: hidden' statement.
-
 * The delay interval starts counting AFTER the animation has ended.
 
 
