@@ -7,12 +7,17 @@
 ## How to use
 
 * To loop an element text, just set a '**data-textloop**' attribute on the desired element.
-	* LoopText sets 'visibility: visible' when it starts looping. This way you can hide your phrases before the script runs with a 'visibility: hidden' statement.
 * Use '**data-textloop-separator**' to change the defualt separator (,)
 * Use '**data-textloop**' with a single interval to specify a delay between all elements
 * Use '**data-textloop**' with intervals separated by '|' to specify each delay
 * Use '**data-textloop-animation**' with a single animation name to specify an animation to all elements
 * Use '**data-textloop-animation**' with animation names separated by '|' to specify each element's animation
+
+###### Obs
+
+* LoopText sets 'visibility: visible' when it starts looping. This way you can hide your phrases before the script runs with a 'visibility: hidden' statement.
+
+* The delay interval starts counting AFTER the animation has ended.
 
 
 
@@ -73,5 +78,5 @@ TextLooper.refreshElements();
 ````
 
 ## Compatibility 
-- IE 10+ (uses classList)
-
+* IE 10, Webkit 4.0, Firefox 16, Opera 15 (animationend, classList)
+* CSS 3.0 (@keyframes)
