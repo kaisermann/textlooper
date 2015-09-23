@@ -1,6 +1,6 @@
 /*
  * Text Looper v1.0.6
- * https://github.com/chriskaisermann/textLooper
+ * https://github.com/kaisermann/textLooper
  * by Christian Kaisermann
  */
  (function (root, factory) 
