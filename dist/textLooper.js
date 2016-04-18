@@ -75,12 +75,12 @@
 
  	TextLooper.setDefaultDelay = function(delay) { defaults.delay = delay; };
  	TextLooper.setDefaultAnimation = function(animation) { defaults.animation = animation; };
- 	TextLooper.refreshElements = function() 
+ 	TextLooper.refresh = function() 
  	{ 
  		for(var i = 0, nodes = document.querySelectorAll("["+mainSelector+"]:not(.textLooped)"); i < nodes.length; i++)
  			new TextLooper(nodes[i]);
  	};
 
- 	TextLooper.refreshElements();
+ 	TextLooper.refresh();
  	return TextLooper;
  }));
