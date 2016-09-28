@@ -1,5 +1,5 @@
 /*
- * Text Looper v1.1.0
+ * Text Looper v2.0.0
  * https://github.com/kaisermann/textlooper
  * by Christian Kaisermann
  */
@@ -16,28 +16,31 @@
     mainSelector = "data-textloop",
     defaults = {
       delay: 1500,
-      animation: 'fadeIn'
+      in: 'fadeIn',
+      out: 'fadeOut'
     };
 
   /* -- TextLooper Class -- */
   function TextLooper(_node) {
-    var _lists = {
-        animations: [],
-        delays: [],
-        phrases: []
+    var _lists = { in: [],
+        out: [],
+        delay: [],
+        phrase: []
       },
       _curIndex = -1,
       _curAnimation,
-      _hasComebackAnimations = false,
-      _shouldReverseAnimation = false;
+      _useComebackAsOut = false,
+      _useOutAnimation = false;
 
     var init = function () {
         var i, prefixes = ["webkit", "moz", "MS", "o", ""];
 
         var _separator = _node.getAttribute(mainSelector + "-separator") || ",";
-        _hasComebackAnimations = _node.hasAttribute(mainSelector + "-comeback");
+        _lists.out = _node.getAttribute(mainSelector + '-out');
 
-        if(_hasComebackAnimations) {
+        _useComebackAsOut = !_lists.out ? _node.hasAttribute(mainSelector + "-comeback") : false;
+
+        if(_useComebackAsOut) {
           var css = '.textlooper--reverse{';
           prefixes.forEach(function (prefix, i) {
             var divisor = ((prefix) ? '-' : '');
@@ -47,32 +50,39 @@
           writeCSS(css);
         }
 
-        _lists.phrases = _node.textContent.split(_separator).map(function (str) {
+        _lists.phrase = _node.textContent.split(_separator).map(function (str) {
           return str.trim();
         });
 
-        _lists.delays = _node.getAttribute(mainSelector).trim().split('|');
-        if(!_lists.delays[0].length)
-          _lists.delays = [];
+        _lists.delay = _node.getAttribute(mainSelector).trim().split('|');
+        if(!_lists.delay[0].length)
+          _lists.delay = [];
 
-        _lists.animations = _node.getAttribute(mainSelector + '-animation');
-        _lists.animations = (!_lists.animations || !_lists.animations.length) ? [] : _lists.animations.split('|');
-
-        ['animation', 'delay'].forEach(function (itemName) {
-          var listName = itemName + 's',
-            list = _lists[listName],
-            n_phrases = _lists.phrases.length;
-
-          if(list.length < n_phrases) {
-            var fillItem = list.length ? list[0] : defaults[itemName];
-            _lists[listName] = _lists[listName].concat(new Array(n_phrases - list.length).fill(fillItem));
-          }
+        ['in', 'out'].forEach(function (key) {
+          _lists[key] = _node.getAttribute(mainSelector + '-' + key);
+          if(_lists[key]) // if a list exists
+            _lists[key] = _lists[key].split('|');
+          else if(_lists[key] === '' || key === 'in') // If empty attr or the in attr
+            _lists[key] = [];
         });
 
-        if(_lists.animations.length !== _lists.phrases.length || _lists.delays.length !== _lists.phrases.length) {
-          console.error("TextLooper - There are more phrases than parameters");
-          return;
-        }
+        ['in', 'out', 'delay'].forEach(function (key) {
+          if(key === 'out' && !_lists[key]) // if out list doesn't exist, let's ignore it
+            return;
+
+          var list = _lists[key];
+
+          // Fills the rest of each list with the default value if list is null
+          // or with the list's first value if it's not null
+          if(list.length < _lists.phrase.length) {
+            var fillItem = list.length ? list[0] : defaults[key];
+            _lists[key] = _lists[key].concat(new Array(_lists.phrase.length - list.length).fill(fillItem));
+          }
+
+          if(_lists[key].length !== _lists.phrase.length) {
+            throw("TextLooper - There are a different number of phrases and parameters");
+          }
+        });
 
         // Listens to the end of animations
         prefixes.forEach(function (prefix, i) {
@@ -85,29 +95,42 @@
       },
       animationEnded = function () {
         _node.classList.remove("animated", "textlooper--reverse", _curAnimation);
-        _shouldReverseAnimation = !_shouldReverseAnimation;
+        _useOutAnimation = !_useOutAnimation;
 
-        if(_hasComebackAnimations && !_shouldReverseAnimation)
+        // Is there any out-animations list or are we supposed to use comback animations?
+        if((_lists.out || _useComebackAsOut) && !_useOutAnimation)
           timerHandler();
-        else
-          setTimeout(timerHandler, _lists.delays[_curIndex]);
+        else // If not...
+          setTimeout(timerHandler, _lists.delay[_curIndex]);
       },
       timerHandler = function () {
-        if(_hasComebackAnimations && _shouldReverseAnimation) {
+        if(_useComebackAsOut && _useOutAnimation) {
+          console.log('comeback');
+          // Comeback animation
           _node.classList.add("animated", "textlooper--reverse", _curAnimation);
         } else {
-          if(++_curIndex === _lists.phrases.length)
-            _curIndex = 0;
-          _curAnimation = _lists.animations[_curIndex];
-
-          _node.style.visibility = 'hidden';
-          _node.textContent = _lists.phrases[_curIndex];
-
-          // We must wait a ~little~ bit between a original animation and its comeback
-          setTimeout(function () {
-            _node.style.visibility = 'visible';
+          if(_lists.out && _useOutAnimation) {
+            console.log('out');
+            // Do not increment the _curIndex and use the relative out-animation
+            _curAnimation = _lists.out[_curIndex];
             _node.classList.add("animated", _curAnimation);
-          }, 1);
+          } else {
+            console.log('in');
+            // In-animation
+            if(++_curIndex === _lists.phrase.length)
+              _curIndex = 0;
+
+            _curAnimation = _lists.in[_curIndex];
+
+            _node.style.visibility = 'hidden';
+            _node.textContent = _lists.phrase[_curIndex];
+
+            // We must wait a ~little~ bit between a original animation and its comeback
+            setTimeout(function () {
+              _node.style.visibility = 'visible';
+              _node.classList.add("animated", _curAnimation);
+            }, 0);
+          }
         }
       },
       writeCSS = function (css) {

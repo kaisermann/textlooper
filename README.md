@@ -1,18 +1,37 @@
 ## Whaaaaat?
 
-* A very lightweight (979 bytes gzipped) text content looper based on CSS animations.
+* A very lightweight (1.05kB gzipped) text content looper based on CSS animations.
 * This script uses a **@keyframe** animation to animate elements. That said, I highly recommend using [**Animate.css**](https://daneden.github.io/animate.css/).	 
 	* Classes used "animated animationName"
 
 ## How to use
 
-* To loop an element text, just set a '**data-textloop**' attribute on the desired element.
-* Use '**data-textloop-separator**' to change the default separator (,)
-* Use '**data-textloop**' with a single interval to specify a delay between all elements
-* Use '**data-textloop**' with intervals separated by '|' to specify each delay
-* Use '**data-textloop-animation**' with a single animation name to specify an animation to all elements
-* Use '**data-textloop-animation**' with animation names separated by '|' to specify each element's animation
-* Set the '**data-textloop-comeback**' attribute if it's desired to also run the inverted animations before changing to the next phrase.
+* To loop an element text, just set a `data-textloop` attribute on the desired element.
+
+* `data-textloop` *(mandatory)*
+  * Use `data-textloop` with a single interval to specify a delay between all elements
+  * Use `data-textloop` with intervals separated by '|' to specify each delay
+
+
+* `data-textloop-separator` *(optional)*
+  * Changes the default separator `,`
+
+
+* `data-textloop-in` *(optional)*
+  * Use `data-textloop-in` with a single animation name to specify the 'in'/'intro' animation to all elements
+  * Use `data-textloop-in` with animation names separated by '|' to specify each element's 'in'/'intro' animation
+  * Defaults to `fadeIn` if defined without values
+
+
+* `data-textloop-out` *(optional)*
+  * Use `data-textloop-out` with a single animation name to specify the 'out'/'outro' animation to all elements
+  * Use `data-textloop-out` with animation names separated by '|' to specify each element's 'out'/'outro' animation
+  * Defaults to `fadeOut` if defined without values
+
+
+* `data-textloop-comeback` *(optional)*
+  * Set the `data-textloop-comeback` attribute if it's desired to also run the inverted animations before changing to the next phrase.
+  * Will be ignore if defined together with `data-textloop-out`
 
 ## Observations
 
@@ -21,21 +40,21 @@ LoopText sets 'visibility: visible' when it loops. This way you can hide your ph
 
 ##### Interval behaviour
 
-For text-lopping WITHOUT comeback animations the delay interval starts counting AFTER the current animation has ended.
+For text-lopping WITHOUT comeback/out animations the delay interval starts counting AFTER the current animation has ended.
 
-For text-looping WITH comeback animations the delay interval starts AFTER the first iteration of an animation but not after its comeback.
+For text-looping WITH comeback/out animations the delay interval starts AFTER the first iteration of an animation but not after its comeback/out animations.
 
 ##### Missing list items
 Each missing animation/delay item will be replaced with the first one of its list.
 
 Example:
 ```html
-<span data-textloop="700|1000|500" data-textloop-animation="pulse|fadeIn|swing">
+<span data-textloop="700|1000|500" data-textloop-in="pulse|fadeIn|swing">
   Multiple, animations, on, this, one
 </span>
 ```
 
-There are 5 different text elements and only three animation/delay items. The two missing items will be replaced by, respectively, '700' and 'pulse'.
+There are 5 different text elements and only three in-animations/delay items. The two missing items will be replaced by, respectively, '700' and 'pulse'.
 
 
 ## Examples
