@@ -1,86 +1,138 @@
-/*
- * Text Looper v1.0.6
- * https://github.com/kaisermann/textLooper
- * by Christian Kaisermann
- */
- (function (root, factory) 
- {
- 	if (typeof define === "function" && define.amd)
- 		define([], factory);
- 	else if (typeof exports === "object")
- 		module.exports = factory();
- 	else
- 		root.TextLooper = factory();
- }(this, function (undefined) 
- {
- 	'use strict';
- 	var 
- 	mainSelector = "data-textloop", 
- 	defaults = { delay: 1500, animation: 'fadeIn' };
+(function (root, factory) {
+  if(typeof define === "function" && define.amd)
+    define([], factory);
+  else if(typeof exports === "object")
+    module.exports = factory();
+  else
+    root.TextLooper = factory();
+}(this, function (undefined) {
+  'use strict';
+  var
+    mainSelector = "data-textloop",
+    defaults = {
+      delay: 1500,
+      animation: 'fadeIn'
+    };
 
- 	/* -- TextLooper Class -- */
- 	function TextLooper(_node) 
- 	{
- 		var 
- 		_phrases = [],
- 		_curIndex = -1,
- 		_curAnimation,
- 		_animations,
- 		_delays;
+  function TextLooper(_node) {
+    var _lists = {
+        animations: [],
+        delays: [],
+        phrases: []
+      },
+      _curIndex = -1,
+      _curAnimation,
+      _hasComebackAnimations = false,
+      _shouldReverseAnimation = false;
 
- 		var init = function()
- 		{
- 			var _separator = _node.getAttribute(mainSelector+"-separator") || ",";
+    var init = function () {
+        var i, prefixes = ["webkit", "moz", "MS", "o", ""];
 
- 			for (var i = 0, splitted = _node.textContent.split(_separator); i < splitted.length; i++)
- 				_phrases.push(splitted[i].trim());
+        var _separator = _node.getAttribute(mainSelector + "-separator") || ",";
+        _hasComebackAnimations = _node.hasAttribute(mainSelector + "-comeback");
 
- 			_delays = _node.getAttribute(mainSelector).trim().split('|');
+        if(_hasComebackAnimations) {
+          var css = '.textlooper--reverse{';
+          prefixes.forEach(function (prefix, i) {
+            var divisor = ((prefix) ? '-' : '');
+            css += divisor + prefix + divisor + 'animation-direction: alternate-reverse;';
+          });
+          css += '}';
+          writeCSS(css);
+        }
 
- 			var tmp_animations = _node.getAttribute(mainSelector+"-animation");
- 			_animations = (tmp_animations) ? tmp_animations.split('|') : undefined;
+        _lists.phrases = _node.textContent.split(_separator).map(function (str) {
+          return str.trim();
+        });
 
- 			if((_animations && _animations.length>1 && _animations.length<_phrases.length) || (_delays.length>1 && _delays.length<_phrases.length))
- 			{
- 				console.error("TextLooper - There are more phrases than parameters");
- 				return;
- 			}
+        _lists.delays = _node.getAttribute(mainSelector).trim().split('|');
+        if(!_lists.delays[0].length)
+          _lists.delays = [];
 
- 			for (var p = 0, prefixes = ["webkit", "moz", "MS", "o", ""]; p < prefixes.length; p++) 
- 				_node.addEventListener(prefixes[p]+((!prefixes[p]) ? "animationend" : "AnimationEnd"), animationEnded);
+        _lists.animations = _node.getAttribute(mainSelector + '-animation');
+        _lists.animations = (!_lists.animations || !_lists.animations.length) ? [] : _lists.animations.split('|');
 
- 			_node.classList.add("textLooped");
- 			_node.style.visibility = "visible";
- 			
- 			timerHandler();
- 		},
- 		animationEnded = function() 
- 		{ 
- 			_node.classList.remove("animated", _curAnimation); 
- 			setTimeout(timerHandler, getCurrent(_delays, _curIndex) || defaults.delay);
- 		},
- 		getCurrent = function(arr, index) { return (arr.length==1)?arr[0] : arr[index]; },
- 		timerHandler = function() 
- 		{
- 			if(++_curIndex === _phrases.length)
- 				_curIndex = 0;
+        ['animation', 'delay'].forEach(function (itemName) {
+          var listName = itemName + 's',
+            list = _lists[listName],
+            n_phrases = _lists.phrases.length;
 
- 			_curAnimation = !_animations ? defaults.animation : getCurrent(_animations, _curIndex);
+          if(list.length < n_phrases) {
+            var fillItem = list.length ? list[0] : defaults[itemName];
+            _lists[listName] = _lists[listName].concat(new Array(n_phrases - list.length).fill(fillItem));
+          }
+        });
 
- 			_node.textContent = _phrases[_curIndex];
- 			_node.classList.add("animated", _curAnimation);
- 		};
- 		init();
- 	}
+        if(_lists.animations.length !== _lists.phrases.length || _lists.delays.length !== _lists.phrases.length) {
+          console.error("TextLooper - There are more phrases than parameters");
+          return;
+        }
 
- 	TextLooper.setDefaultDelay = function(delay) { defaults.delay = delay; };
- 	TextLooper.setDefaultAnimation = function(animation) { defaults.animation = animation; };
- 	TextLooper.refresh = function() 
- 	{ 
- 		for(var i = 0, nodes = document.querySelectorAll("["+mainSelector+"]:not(.textLooped)"); i < nodes.length; i++)
- 			new TextLooper(nodes[i]);
- 	};
+        prefixes.forEach(function (prefix, i) {
+          _node.addEventListener(prefix + ((!prefix.length) ? "animationend" : "AnimationEnd"), animationEnded);
+        });
 
- 	TextLooper.refresh();
- 	return TextLooper;
- }));
+        _node.classList.add("textlooper--looping");
+        timerHandler();
+      },
+      animationEnded = function () {
+        _node.classList.remove("animated", "textlooper--reverse", _curAnimation);
+        _shouldReverseAnimation = !_shouldReverseAnimation;
+
+        if(_hasComebackAnimations && !_shouldReverseAnimation)
+          timerHandler();
+        else
+          setTimeout(timerHandler, _lists.delays[_curIndex]);
+      },
+      timerHandler = function () {
+        if(_hasComebackAnimations && _shouldReverseAnimation) {
+          _node.classList.add("animated", "textlooper--reverse", _curAnimation);
+        } else {
+          if(++_curIndex === _lists.phrases.length)
+            _curIndex = 0;
+          _curAnimation = _lists.animations[_curIndex];
+
+          _node.style.visibility = 'hidden';
+          _node.textContent = _lists.phrases[_curIndex];
+
+          setTimeout(function () {
+            _node.style.visibility = 'visible';
+            _node.classList.add("animated", _curAnimation);
+          }, 1);
+        }
+      },
+      writeCSS = function (css) {
+        var head = document.head || document.getElementsByTagName('head')[0],
+          style = document.createElement('style');
+
+        if(head.querySelector('#textlooper-css'))
+          return;
+
+        style.type = 'text/css';
+        style.id = 'textlooper-css';
+        if(style.styleSheet) {
+          style.styleSheet.cssText = css;
+        } else {
+          style.appendChild(document.createTextNode(css));
+        }
+        head.appendChild(style);
+      };
+    init();
+  }
+
+  TextLooper.setDefaultDelay = function (delay) {
+    defaults.delay = delay;
+  };
+
+  TextLooper.setDefaultAnimation = function (animation) {
+    defaults.animation = animation;
+  };
+
+  TextLooper.refresh = function () {
+    for(var i = 0, nodes = document.querySelectorAll("[" + mainSelector + "]:not(.textlooper--looping)"); i < nodes.length; i++)
+      new TextLooper(nodes[i]);
+  };
+
+  TextLooper.refresh();
+  return TextLooper;
+}));

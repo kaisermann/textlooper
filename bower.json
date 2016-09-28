@@ -1,20 +1,20 @@
 {
-    "name": "TextLooper",
-    "version": "1.0.6",
-    "homepage": "https://github.com/kaisermann/textLooper",
-    "authors": [
-        "Christian Kaisermann <christian@kaisermann.me>"
-    ],
-    "description": "Text content rotation",
-    "keywords": [
-        "text",
-        "rotation",
-        "loop",
-        "timer"
-    ],
-    "license": "",
-    "ignore": [
-        "**/.*"
-    ],
-    "main": ["dist/textLooper.js"]
+  "name": "textlooper",
+  "version": "1.1.0",
+  "homepage": "https://github.com/kaisermann/textLooper",
+  "authors": [
+    "Christian Kaisermann <christian@kaisermann.me>"
+  ],
+  "description": "Text content rotation",
+  "keywords": [
+    "text",
+    "rotation",
+    "loop",
+    "timer"
+  ],
+  "license": "",
+  "ignore": [
+    "**/.*"
+  ],
+  "main": ["dist/textLooper.js"]
 }

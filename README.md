@@ -1,81 +1,114 @@
 ## Whaaaaat?
 
-* A very lightweight text content looper based on CSS animations. 
-* This script uses a **@keyframe** animation to animate elements. That said, I highly recommend using [**Animate.css**](https://daneden.github.io/animate.css/).     
-    * Classes used "animated animationName"
+* A very lightweight (979 bytes gzipped) text content looper based on CSS animations.
+* This script uses a **@keyframe** animation to animate elements. That said, I highly recommend using [**Animate.css**](https://daneden.github.io/animate.css/).	 
+	* Classes used "animated animationName"
 
 ## How to use
 
 * To loop an element text, just set a '**data-textloop**' attribute on the desired element.
-* Use '**data-textloop-separator**' to change the defualt separator (,)
+* Use '**data-textloop-separator**' to change the default separator (,)
 * Use '**data-textloop**' with a single interval to specify a delay between all elements
 * Use '**data-textloop**' with intervals separated by '|' to specify each delay
 * Use '**data-textloop-animation**' with a single animation name to specify an animation to all elements
 * Use '**data-textloop-animation**' with animation names separated by '|' to specify each element's animation
+* Set the '**data-textloop-comeback**' attribute if it's desired to also run the inverted animations before changing to the next phrase.
 
-###### Obs
+## Observations
 
-* LoopText sets 'visibility: visible' when it starts looping. This way you can hide your phrases before the script runs with a 'visibility: hidden' statement.
-* The delay interval starts counting AFTER the animation has ended.
+##### Visibility
+LoopText sets 'visibility: visible' when it loops. This way you can hide your phrases before the script runs with a 'visibility: hidden' statement.
+
+##### Interval behaviour
+
+For text-lopping WITHOUT comeback animations the delay interval starts counting AFTER the current animation has ended.
+
+For text-looping WITH comeback animations the delay interval starts AFTER the first iteration of an animation but not after its comeback.
+
+##### Missing list items
+Each missing animation/delay item will be replaced with the first one of its list.
+
+Example:
+```html
+<span data-textloop="700|1000|500" data-textloop-animation="pulse|fadeIn|swing">
+  Multiple, animations, on, this, one
+</span>
+```
+
+There are 5 different text elements and only three animation/delay items. The two missing items will be replaced by, respectively, '700' and 'pulse'.
 
 
+## Examples
 
-##### Examples
+##### [Live examples](http://kaisermann.github.io/textlooper/)
 
-````
+````html
 <!-- Default animation (fadeIn), default delay (1500), default separator (,) -->
 <span data-textloop>
-    Default, Phrase 1, Phrase 2, Phrase 3
+	Default, Phrase 1, Phrase 2, Phrase 3
 </span>
 
-<!-- Default animation (fadeIn), default delay (1500), custom separator (&) -->
-<span data-textloop data-textloop-separator="&">
-    Let's, Change & The, Separator & He he
+<!-- Same animation as above but with its comeback animations -->
+<span data-textloop data-textloop-comeback>
+	Default, Phrase 1, Phrase 2, Phrase 3
 </span>
 
-<!-- Default animation (fadeIn), one delay (1000), custom separator (&) -->
-<span data-textloop="1000" data-textloop-separator="&">
-    This & will & wait & one & second
+<!-- Default animation (fadeIn), default delay (1500), custom separator (|) -->
+<span data-textloop data-textloop-separator="|">
+	Let's, Change | The, Separator | He he
+</span>
+
+<!-- Default animation (fadeIn), one delay (1000), custom separator (|) -->
+<span data-textloop="1000" data-textloop-separator="|">
+	This | will | wait | one | second
 </span>
 
 <!-- Default animation (fadeIn), multiple delays -->
 <span data-textloop="500|500|500|500|1000">
-    Multiple, delays, one, default, animation
+	Multiple, delays, one, default, animation
 </span>
 
 <!-- Default delay (1500), one animation (bounceIn) -->
 <span data-textloop data-textloop-animation="bounceIn">
-    Default, delay, one, custom, animation
+	Default, delay, one, custom, animation
 </span>
 
 <!-- Default delay (1500), multiple animations -->
 <span data-textloop data-textloop-animation="pulse|fadeIn|swing|fadeOut|bounceIn">
-    Multiple, animations, one, default, delay
+	Multiple, animations, one, default, delay
 </span>
 
 <!-- One delay (1000), multiple animations -->
 <span data-textloop="1000" data-textloop-animation="pulse|fadeIn|swing|fadeOut|bounceIn">
-    Multiple, animations, one, delay
+	Multiple, animations, one, delay
 </span>
 
 <!-- Multiple animations, multiple delays -->
 <span data-textloop="500|500|500|500|1000" data-textloop-animation="pulse|fadeIn|swing|fadeOut|bounceIn">
-    Multiple, animations, on, this, one
+	Multiple, animations, on, this, one
+</span>
+
+<!-- Multiple animations, multiple delays with comeback animations -->
+<span data-textloop="500|500|500|500|1000" data-textloop-animation="pulse|fadeIn|swing|slideInUp" data-textloop-comeback>
+  Multiple, animations, on, this, one
 </span>
 ````
 
 ### Methods
-````
-// Sets a new delay default (in milliseconds)
+````js
+// Sets a new default delay (in milliseconds)
 TextLooper.setDefaultDelay(newDelay);
 
-// Sets a new animation name default
+// Sets a new animation default name
 TextLooper.setDefaultAnimation(newAnimationName);
 
 // Look for new textLoopable elements
 TextLooper.refreshElements();
 ````
 
-## Compatibility 
+## Compatibility
 * IE 10, Webkit 4.0, Firefox 16, Opera 15 (animationend, classList)
 * CSS 3.0 (@keyframes)
+
+## Bonus credits
+* [Vitor Paladini](https://github.com/vtrpldn) for naming the `data-textloop-comeback` attribute. (It was really hard to come with a name for it and he mockingly requested for credits, so here we are).
