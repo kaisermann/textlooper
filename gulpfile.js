@@ -16,7 +16,7 @@ gulp.task('build', function () {
   return gulp.src('./src/_main.js')
     .pipe($.plumber())
     .pipe($.preprocess())
-    .pipe($.stripComments())
+    //.pipe($.stripComments())
     .pipe($.rename(name + '.js'))
     .pipe($.size({showFiles: true}))
     .pipe(gulp.dest('./dist/'));

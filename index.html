@@ -33,69 +33,16 @@
     <div id="loops">
       <div id="random-loops"></div>
       <div class="label">Default in-animation (fadeIn), default delay (1500), default separator (,)</div>
-      <span data-textloop>
+    
+      <span data-textloop="2000" data-textloop-in="bounceIn" data-textloop-out="slideOutDown">
         Default, Phrase 1, Phrase 2, Phrase 3
-      </span>
-
-      <div class="label">Same animation as above but with its comeback animations</div>
-      <span data-textloop data-textloop-comeback>
-        Default, Phrase 1, Phrase 2, Phrase 3
-      </span>
-
-      <div class="label">Same animation as above but with bounceOutUp as out-animation</div>
-      <span data-textloop data-textloop-out="bounceOutUp">
-        Default, Phrase 1, Phrase 2, Phrase 3
-      </span>
-
-      <div class="label">Default in-animation (fadeIn), default delay (1500), default separator (,)</div>
-      <span data-textloop>
-        Default, Phrase 1, Phrase 2, Phrase 3
-      </span>
-
-      <div class="label">Default in-animation (fadeIn), default delay (1500), custom separator (|)</div>
-      <span data-textloop data-textloop-separator="|">
-        Let's, Change | The, Separator | He he
-      </span>
-
-      <div class="label">Default in-animation (fadeIn), one delay (1000), custom separator (|)</div>
-      <span data-textloop="1000" data-textloop-separator="|">
-        This | will | wait | one | second
-      </span>
-
-      <div class="label">Default in-animation (fadeIn), multiple delays</div>
-      <span data-textloop="500|500|500|500|1000">
-        Multiple, delays, one, default, animation
-      </span>
-
-      <div class="label">Default delay (1500), one in-animation (bounceIn)</div>
-      <span data-textloop data-textloop-in="bounceIn">
-        Default, delay, one, custom, animation
-      </span>
-
-      <div class="label">Default delay (1500), multiple in-animations</div>
-      <span data-textloop data-textloop-in="pulse|fadeIn|swing|fadeOut|bounceIn">
-        Multiple, animations, one, default, delay
-      </span>
-
-      <div class="label">One delay (1000), multiple in-animations</div>
-      <span data-textloop="1000" data-textloop-in="pulse|fadeIn|swing|slideInLeft">
-        Multiple, animations, one, delay
-      </span>
-
-      <div class="label">Multiple in-animations, multiple delays</div>
-      <span data-textloop="500|500|500|500|1000" data-textloop-in="pulse|fadeIn|swing|slideInUp">
-        Multiple, animations, on, this, one
-      </span>
-
-      <div class="label">Multiple in-animations, multiple delays with comeback animations</div>
-      <span data-textloop="500|500|500|500|1000" data-textloop-in="pulse|fadeIn|swing|slideInUp" data-textloop-comeback>
-        Multiple, animations, on, this, one
       </span>
     </div>
 
     <script src="dist/textLooper.js"></script>
     <script>
-      TextLooper.setDefaultDelay(100);
+      TextLooper.setDefaultDelay(1000);
+      TextLooper.refresh();
       var animations = [
           "pulse", "fadeIn", "swing", "fadeOut", "bounceIn"
         ],
