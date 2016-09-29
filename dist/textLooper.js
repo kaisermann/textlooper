@@ -6,6 +6,7 @@
   else
     root.TextLooper = factory();
 }(this, function (undefined) {
+  /* jshint eqnull: true */
   'use strict';
 
   var
@@ -19,6 +20,7 @@
     },
     prefixes = ['webkit', 'moz', 'MS', 'o', '']
 
+  // TextLooper Class
   function TextLooper(node, optionsObj) {
     var _curIndex = -1,
       _curAnimation,
@@ -44,6 +46,7 @@
         writeCSS(css);
       }
 
+      // Listens to the end of animations
       prefixes.forEach(function (prefix, i) {
         _this.node.addEventListener(prefix + ((!prefix.length) ? 'animationend' : 'AnimationEnd'), animationEnded);
       });
@@ -56,25 +59,30 @@
         var a;
       }
 
+      // Is there any out-animations list or are we supposed to use comback animations?
       if(_this.attributes.outs && !_useOutAnimation) {
         timerHandler();
-      } else { 
+      } else { // If not...
         setTimeout(timerHandler, _this.attributes.delays[_curIndex]);
       }
     };
     var timerHandler = function () {
       if(_this.attributes.outs && _useOutAnimation) {
+        // Out-animation
+        // Do not increment the _curIndex and use the relative out-animation
         _curAnimation = _this.attributes.outs[_curIndex];
         if(_this.attributes.comebackAsOut) {
           _this.node.classList.add('textlooper--reverse');
         }
         _this.node.classList.add('animated', _curAnimation);
       } else {
+        // In-animation
         if(++_curIndex === _this.attributes.phrases.length)
           _curIndex = 0;
 
         _curAnimation = _this.attributes.ins[_curIndex];
 
+        // We must set visibility to hidden/visible to prevent text from flickering
         _this.node.style.visibility = 'hidden';
         _this.node.textContent = _this.attributes.phrases[_curIndex];
 
@@ -89,20 +97,24 @@
       var _tmpAttrs = {};
       _tmpAttrs.separator = _this.node.getAttribute(selector('separator')) || defaults.separator;
 
+      // Check if main selector and delays exist and initializes its list
       if(!_this.node.hasAttribute(selector())) {
         _this.node.setAttribute(selector(), defaults.delay);
       }
       _tmpAttrs.delays = _this.node.getAttribute(selector());
 
+      // Filters empty and non-number entries and transforms the result in integers
       _tmpAttrs.delays = clipEmptyEntries(_tmpAttrs.delays.split('|')).filter(function (str) {
         return Number.isInteger(+str);
       }).map(Number);
 
+      // Get node text
       _tmpAttrs.phrases = clipEmptyEntries(_this.node.textContent.split(_tmpAttrs.separator));
 
       if(!_tmpAttrs.phrases.length)
         throw new Error('TextLooper: no text detected');
 
+      // Get in and out (if defined) animations list
       ['in', 'out'].forEach(function (key) {
         var pluralKey = key + 's';
         var attr = selector(key);
@@ -118,31 +130,42 @@
     };
 
     var treatAttributes = function (arr) {
+      // If we got here without a separator we must have come from a external attributes object
       arr.separator = arr.separator || defaults.separator;
 
       ['in', 'out', 'delay'].forEach(function (key) {
-        var pluralKey = key + 's';
+        var pluralKey = key + 's',
+          list;
+
+        // if out-animations list doesn't exist, let's ignore it
         if(key === 'out' && !arr[pluralKey])
           return;
 
-        var list = arr[pluralKey];
-
-        if(!list)
-          list = arr[pluralKey] = [];
-        else if(!Array.isArray(list)) {
-          arr[pluralKey] = [arr[pluralKey]];
+        // If null, let's make it an empty array
+        if(!arr[pluralKey]) {
+          list = [];
+        }
+        // If not array, let's make it into one
+        else if(!Array.isArray(arr[pluralKey])) {
+          list = [arr[pluralKey]];
+        } else {
+          list = arr[pluralKey];
         }
 
+        // Fills the rest of each list with the default value if list is null
+        // or with the list's first value if it's not null
         if(list.length < arr.phrases.length) {
           var fillItem = list.length ? list[0] : defaults[key];
-          arr[pluralKey] = arr[pluralKey].concat(new Array(arr.phrases.length - list.length).fill(fillItem));
+          list = list.concat(new Array(arr.phrases.length - list.length).fill(fillItem));
         }
 
-        if(arr[pluralKey].length !== arr.phrases.length) {
+        if(list.length !== arr.phrases.length) {
           throw new Error('TextLooper: There are a different number of phrases and parameters');
         }
+        arr[pluralKey] = list;
       });
 
+      // If out animations are defined, we should ignore data-textloop-comeback
       if(!arr.comebackAsOut) {
         arr.comebackAsOut = !arr.outs ? _this.node.hasAttribute(selector('comeback')) : false;
       }
@@ -153,7 +176,9 @@
       return arr;
     };
 
+    // Privileged methods
     this.start = function () {
+      // Let's mark this node as a text-looper node
       this.node.classList.add(defaults.loopingClass);
       timerHandler();
       return _this;
@@ -166,6 +191,7 @@
     init(node, optionsObj);
   }
 
+  // Private helper methods
   function selector(str) {
     str = str || '';
     return defaults.selector + ((!str.length) ? '' : '-' + str);
@@ -175,6 +201,7 @@
     var head = document.head || document.getElementsByTagName('head')[0],
       style = document.createElement('style');
 
+    // We don't need to add a style tag more than once
     if(head.querySelector('#textlooper-css'))
       return;
 
@@ -194,6 +221,7 @@
     });
   }
 
+  // Static methods
   TextLooper.setDefaults = function (o) {
     Object.assign(defaults, o);
   };

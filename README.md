@@ -139,7 +139,7 @@ There are 5 different text elements and only three in-animations/delay items. Th
 
 # Examples
 
-## [Live examples](http://kaisermann.github.io/textlooper/)
+#### [Live examples](http://kaisermann.github.io/textlooper/)
 
 ```html
 <!-- Default animation (fadeIn), default delay (1500), default separator  -->

@@ -30,16 +30,16 @@ function sel(str = '') {
 }
 
 describe('Initializing with javascript', function () {
-  it('should have the same attributes as the original parse method result', function () {
+  it('should have the same result as the original parse method', function () {
     var opts = {
       phrases: phraseGenerator(2, ',', true),
-      ins: ['slideInUp', 'slideOutUp'],
+      ins: 'slideInUp',
       outs: null
     }
     var attr1 = new TextLooper(node, opts).getAttributes();
 
     node.textContent = phraseGenerator(2, ',');
-    node.setAttribute(sel('in'), 'slideInUp|slideOutUp');
+    node.setAttribute(sel('in'), 'slideInUp');
 
     var attr2 = new TextLooper(node).getAttributes();
     assert.deepEqual(attr1, attr2);

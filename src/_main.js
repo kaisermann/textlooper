@@ -134,29 +134,35 @@
       arr.separator = arr.separator || defaults.separator;
 
       ['in', 'out', 'delay'].forEach(function (key) {
-        var pluralKey = key + 's';
+        var pluralKey = key + 's',
+          list;
+
         // if out-animations list doesn't exist, let's ignore it
         if(key === 'out' && !arr[pluralKey])
           return;
 
-        var list = arr[pluralKey];
-
-        if(!list)
-          list = arr[pluralKey] = [];
-        else if(!Array.isArray(list)) {
-          arr[pluralKey] = [arr[pluralKey]];
+        // If null, let's make it an empty array
+        if(!arr[pluralKey]) {
+          list = [];
+        }
+        // If not array, let's make it into one
+        else if(!Array.isArray(arr[pluralKey])) {
+          list = [arr[pluralKey]];
+        } else {
+          list = arr[pluralKey];
         }
 
         // Fills the rest of each list with the default value if list is null
         // or with the list's first value if it's not null
         if(list.length < arr.phrases.length) {
           var fillItem = list.length ? list[0] : defaults[key];
-          arr[pluralKey] = arr[pluralKey].concat(new Array(arr.phrases.length - list.length).fill(fillItem));
+          list = list.concat(new Array(arr.phrases.length - list.length).fill(fillItem));
         }
 
-        if(arr[pluralKey].length !== arr.phrases.length) {
+        if(list.length !== arr.phrases.length) {
           throw new Error('TextLooper: There are a different number of phrases and parameters');
         }
+        arr[pluralKey] = list;
       });
 
       // If out animations are defined, we should ignore data-textloop-comeback
