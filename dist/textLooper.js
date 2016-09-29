@@ -41,6 +41,8 @@
         delays: []
       }, optionsObj) : parseAttributes());
 
+      console.log(_this.attributes);
+
       if(_this.attributes.comebackAsOut && !addedReverseCSS) {
         var css = '.' + defaults.reverseClass + '{';
         prefixes.forEach(function (prefix) {
@@ -161,10 +163,8 @@
         // Fills the rest of each list with the default value if list is null
         // or with the list's first value if it's not null
         if(list.length < arr.phrases.length) {
-          list = list.concat(
-            new Array(arr.phrases.length - list.length)
-            .fill(list.length ? list[0] : defaults[key])
-          );
+          var fillItem = list.length ? list[0] : defaults[key];
+          list = list.concat(new Array(arr.phrases.length - list.length).fill(fillItem));
         }
 
         if(list.length !== arr.phrases.length) {
