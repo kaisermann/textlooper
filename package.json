@@ -1,6 +1,6 @@
 {
   "name": "textlooper",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Text content rotation",
   "main": "dist/textlooper.js",
   "repository": {

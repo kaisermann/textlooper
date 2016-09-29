@@ -15,10 +15,15 @@
       in: 'fadeIn',
       out: 'fadeOut',
       selector: 'data-textlooper',
+      separator: ',',
       loopingClass: 'textlooper--looping',
-      separator: ','
+      reverseClass: 'textlooper--reverse',
+      animatedClass: 'animated'
     },
-    prefixes = ['webkit', 'moz', 'MS', 'o', '']
+    prefixes = ['webkit', 'moz', 'MS', 'o', ''],
+    head = document.head || document.getElementsByTagName('head')[0],
+    style,
+    addedReverseCSS = false;
 
   // TextLooper Class
   function TextLooper(node, optionsObj) {
@@ -36,14 +41,15 @@
         delays: []
       }, optionsObj) : parseAttributes());
 
-      if(_this.attributes.comebackAsOut) {
-        var css = '.textlooper--reverse{';
+      if(_this.attributes.comebackAsOut && !addedReverseCSS) {
+        var css = '.' + defaults.reverseClass + '{';
         prefixes.forEach(function (prefix) {
           var divisor = ((prefix) ? '-' : '');
           css += divisor + prefix + divisor + 'animation-direction: alternate-reverse;';
         });
         css += '}';
-        writeCSS(css);
+        appendCSS(css);
+        addedReverseCSS = true;
       }
 
       // Listens to the end of animations
@@ -53,7 +59,7 @@
     };
 
     var animationEnded = function () {
-      _this.node.classList.remove('animated', 'textlooper--reverse', _curAnimation);
+      _this.node.classList.remove(defaults.animatedClass, defaults.reverseClass, _curAnimation);
       _useOutAnimation = !_useOutAnimation;
       if(true) {
         var a;
@@ -72,9 +78,9 @@
         // Do not increment the _curIndex and use the relative out-animation
         _curAnimation = _this.attributes.outs[_curIndex];
         if(_this.attributes.comebackAsOut) {
-          _this.node.classList.add('textlooper--reverse');
+          _this.node.classList.add(defaults.reverseClass);
         }
-        _this.node.classList.add('animated', _curAnimation);
+        _this.node.classList.add(defaults.animatedClass, _curAnimation);
       } else {
         // In-animation
         if(++_curIndex === _this.attributes.phrases.length)
@@ -88,7 +94,7 @@
 
         setTimeout(function () {
           _this.node.style.visibility = 'visible';
-          _this.node.classList.add('animated', _curAnimation);
+          _this.node.classList.add(defaults.animatedClass, _curAnimation);
         }, 0);
       }
     };
@@ -112,7 +118,7 @@
       _tmpAttrs.phrases = clipEmptyEntries(_this.node.textContent.split(_tmpAttrs.separator));
 
       if(!_tmpAttrs.phrases.length)
-        throw new Error('TextLooper: no text detected');
+        throw new Error('TextLooper - no text detected');
 
       // Get in and out (if defined) animations list
       ['in', 'out'].forEach(function (key) {
@@ -160,7 +166,7 @@
         }
 
         if(list.length !== arr.phrases.length) {
-          throw new Error('TextLooper: There are a different number of phrases and parameters');
+          throw new Error('TextLooper - There are a different number of phrases and parameters');
         }
         arr[pluralKey] = list;
       });
@@ -197,22 +203,12 @@
     return defaults.selector + ((!str.length) ? '' : '-' + str);
   }
 
-  function writeCSS(css) {
-    var head = document.head || document.getElementsByTagName('head')[0],
-      style = document.createElement('style');
-
-    // We don't need to add a style tag more than once
-    if(head.querySelector('#textlooper-css'))
-      return;
-
-    style.type = 'text/css';
-    style.id = 'textlooper-css';
+  function appendCSS(css) {
     if(style.styleSheet) {
       style.styleSheet.cssText = css;
     } else {
       style.appendChild(document.createTextNode(css));
     }
-    head.appendChild(style);
   }
 
   function clipEmptyEntries(arr) {
@@ -235,6 +231,17 @@
       new TextLooper(nodes[i]).start();
     }
   };
+
+  // Creates a dynamic style tag
+  (function createStyleTag() {
+
+    style = document.createElement('style');
+    style.type = 'text/css';
+    style.id = 'textlooper-css';
+    head.appendChild(style);
+
+    appendCSS('[' + selector() + ']{display:inline-block;}');
+  })();
 
   return TextLooper;
 }));

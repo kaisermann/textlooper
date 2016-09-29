@@ -1,41 +1,40 @@
 # Whaaaaat?
 
-- A very customizable and lightweight (1.31kB gzipped) text content looper based on CSS animations.
-- This script uses a **@keyframe** animation to animate elements. That said, I highly recommend using [**Animate.css**](https://daneden.github.io/animate.css/).
-
-  - Classes used "animated animationName"
+* A very customizable and lightweight (1.35kB gzipped) text content looper based on CSS animations.
+* This script uses `@keyframe` animations. That said, I highly recommend using [**Animate.css**](https://daneden.github.io/animate.css/).
 
 # How to use
 
 ## Using html attributes
 
-To loop an element text, just set a `data-textlooper` attribute on the desired element
+To loop an element's text, just set a `data-textlooper` attribute on the desired element and call the `TextLooper.seek()` method somewhere on your code.
 
-- `data-textlooper` _(mandatory)_
+#### Attributes
+* `data-textlooper` _(mandatory)_
 
-  - Use `data-textlooper` with a single interval to specify a delay between all elements
-  - Use `data-textlooper` with intervals separated by '|' to specify each delay
+  * Use `data-textlooper` with a single interval to specify a delay between all elements
+  * Use `data-textlooper` with intervals separated by '|' to specify each delay
 
-- `data-textlooper-separator` _(optional)_
+* `data-textlooper-separator` _(optional)_
 
-  - Changes the default separator `,`
+  * Changes the default separator `,`
 
-- `data-textlooper-in` _(optional)_
+* `data-textlooper-in` _(optional)_
 
-  - Use `data-textlooper-in` with a single animation name to specify the 'in'/'intro' animation to all elements
-  - Use `data-textlooper-in` with animation names separated by '|' to specify each element's 'in'/'intro' animation
-  - Defaults to `fadeIn` if defined without values
+  * Use `data-textlooper-in` with a single animation name to specify the 'in'/'intro' animation to all elements
+  * Use `data-textlooper-in` with animation names separated by '|' to specify each element's 'in'/'intro' animation
+  * Defaults to `fadeIn` if defined without values
 
-- `data-textlooper-out` _(optional)_
+* `data-textlooper-out` _(optional)_
 
-  - Use `data-textlooper-out` with a single animation name to specify the 'out'/'outro' animation to all elements
-  - Use `data-textlooper-out` with animation names separated by '|' to specify each element's 'out'/'outro' animation
-  - Defaults to `fadeOut` if defined without values
+  * Use `data-textlooper-out` with a single animation name to specify the 'out'/'outro' animation to all elements
+  * Use `data-textlooper-out` with animation names separated by '|' to specify each element's 'out'/'outro' animation
+  * Defaults to `fadeOut` if defined without values
 
-- `data-textlooper-comeback` _(optional)_
+* `data-textlooper-comeback` _(optional)_
 
-  - Set the `data-textlooper-comeback` attribute if it's desired to also run the inverted animations before changing to the next phrase.
-  - Will be ignore if defined together with `data-textlooper-out`
+  * Set the `data-textlooper-comeback` attribute if it's desired to also run the inverted animations before changing to the next phrase.
+  * Will be ignore if defined together with `data-textlooper-out`
 
 ## Using javascript
 
@@ -228,7 +227,7 @@ tl.getAttributes();
 ##### Static
 
 ```javascript
-// Look for new textLoopable elements
+// Look for (new) textLoopable elements
 TextLooper.seek();
 
 // Overrides default values
@@ -237,7 +236,6 @@ TextLooper.setDefaults({
   in: 'fadeIn',
   out: 'fadeOut',
   selector: 'data-textlooper',
-  loopingClass: 'textlooper--looping',
   separator: ','
 });
 
@@ -251,4 +249,4 @@ IE 10, Webkit 4.0, Firefox 16, Opera 15
 
 # Bonus credits
 
-- [Vitor Paladini](https://github.com/vtrpldn) for naming the `data-textlooper-comeback` attribute. (It was really hard to come with a name for it and he mockingly requested for credits, so here we are).
+* [Vitor Paladini](https://github.com/vtrpldn) for naming the `data-textlooper-comeback` attribute. (It was really hard to come with a name for it and he mockingly requested for credits, so here we are).
