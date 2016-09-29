@@ -1,6 +1,6 @@
 # Whaaaaat?
 
-- A very lightweight (1.05kB gzipped) text content looper based on CSS animations.
+- A very customizable and lightweight (1.31kB gzipped) text content looper based on CSS animations.
 - This script uses a **@keyframe** animation to animate elements. That said, I highly recommend using [**Animate.css**](https://daneden.github.io/animate.css/).
 
   - Classes used "animated animationName"
@@ -9,33 +9,33 @@
 
 ## Using html attributes
 
-To loop an element text, just set a `data-textloop` attribute on the desired element
+To loop an element text, just set a `data-textlooper` attribute on the desired element
 
-- `data-textloop` _(mandatory)_
+- `data-textlooper` _(mandatory)_
 
-  - Use `data-textloop` with a single interval to specify a delay between all elements
-  - Use `data-textloop` with intervals separated by '|' to specify each delay
+  - Use `data-textlooper` with a single interval to specify a delay between all elements
+  - Use `data-textlooper` with intervals separated by '|' to specify each delay
 
-- `data-textloop-separator` _(optional)_
+- `data-textlooper-separator` _(optional)_
 
   - Changes the default separator `,`
 
-- `data-textloop-in` _(optional)_
+- `data-textlooper-in` _(optional)_
 
-  - Use `data-textloop-in` with a single animation name to specify the 'in'/'intro' animation to all elements
-  - Use `data-textloop-in` with animation names separated by '|' to specify each element's 'in'/'intro' animation
+  - Use `data-textlooper-in` with a single animation name to specify the 'in'/'intro' animation to all elements
+  - Use `data-textlooper-in` with animation names separated by '|' to specify each element's 'in'/'intro' animation
   - Defaults to `fadeIn` if defined without values
 
-- `data-textloop-out` _(optional)_
+- `data-textlooper-out` _(optional)_
 
-  - Use `data-textloop-out` with a single animation name to specify the 'out'/'outro' animation to all elements
-  - Use `data-textloop-out` with animation names separated by '|' to specify each element's 'out'/'outro' animation
+  - Use `data-textlooper-out` with a single animation name to specify the 'out'/'outro' animation to all elements
+  - Use `data-textlooper-out` with animation names separated by '|' to specify each element's 'out'/'outro' animation
   - Defaults to `fadeOut` if defined without values
 
-- `data-textloop-comeback` _(optional)_
+- `data-textlooper-comeback` _(optional)_
 
-  - Set the `data-textloop-comeback` attribute if it's desired to also run the inverted animations before changing to the next phrase.
-  - Will be ignore if defined together with `data-textloop-out`
+  - Set the `data-textlooper-comeback` attribute if it's desired to also run the inverted animations before changing to the next phrase.
+  - Will be ignore if defined together with `data-textlooper-out`
 
 ## Using javascript
 
@@ -53,16 +53,63 @@ new TextLooper(node, {
 }).start();
 ```
 
-Attribute Name | Description
-:------------- | :------------------------------------------------------------------------------------------------------------------
-phrases        | `Array`: phrases to loop through
-ins            | `String`: a single in-animation for all iterations.<br>
-`Array`: customizable in-animations to each iteration.
-outs           | `String`: a single out-animation for all iterations.<br>
-`Array`: customizable out-animations to each iteration.
-delays         | `Integer`: a single delay interval for all iterations.<br>
-`Array`: customizable delay intervals to each iteration.
-comebackAsOut  | A boolean defining if the out-animation should be the respective reversed in-animation
+<table>
+    <thead>
+        <tr>
+            <th>
+                Attribute Name
+            </th>
+            <th>
+                Description
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                phrases
+            </td>
+            <td>
+                <code>Array</code>: phrases to loop through
+            </td>
+        </tr>
+        <tr>
+            <td>
+                ins
+            </td>
+            <td>
+                <code>String</code>: a single in-animation for all iterations.
+                <br> <code>Array</code>: customizable in-animations to each iteration.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                outs
+            </td>
+            <td>
+                <code>String</code>: a single out-animation for all iterations.
+                <br> <code>Array</code>: customizable out-animations to each iteration.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                delays
+            </td>
+            <td>
+                <code>Integer</code>: a single delay interval for all iterations.
+                <br> <code>Array</code>: customizable delay intervals to each iteration.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                comebackAsOut
+            </td>
+            <td>
+                A <code>boolean</code> defining if the out-animation should be the respective reversed in-animation.
+            </td>
+        </tr>
+    </tbody>
+</table>
 
 # Observations
 
@@ -70,7 +117,7 @@ comebackAsOut  | A boolean defining if the out-animation should be the respectiv
 
 LoopText sets 'visibility: visible' when it loops. This way you can hide your phrases before the script runs with a 'visibility: hidden' statement.
 
-## Interval behaviour
+## Delay interval behaviour
 
 For text-lopping WITHOUT comeback/out animations the delay interval starts counting AFTER the current animation has ended.
 
@@ -83,7 +130,7 @@ Each missing animation/delay item will be replaced with the first one of its lis
 Example:
 
 ```html
-<span data-textloop="700|1000|500" data-textloop-in="pulse|fadeIn|swing">
+<span data-textlooper="700|1000|500" data-textlooper-in="pulse|fadeIn|swing">
   Multiple, animations, on, this, one
 </span>
 ```
@@ -204,4 +251,4 @@ IE 10, Webkit 4.0, Firefox 16, Opera 15
 
 # Bonus credits
 
-- [Vitor Paladini](https://github.com/vtrpldn) for naming the `data-textloop-comeback` attribute. (It was really hard to come with a name for it and he mockingly requested for credits, so here we are).
+- [Vitor Paladini](https://github.com/vtrpldn) for naming the `data-textlooper-comeback` attribute. (It was really hard to come with a name for it and he mockingly requested for credits, so here we are).
