@@ -1,11 +1,11 @@
 {
   "name": "textlooper",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Text content rotation",
   "main": "dist/textlooper.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kaisermann/textLooper.git"
+    "url": "https://github.com/kaisermann/textlooper.git"
   },
   "keywords": [
     "text",
@@ -14,9 +14,9 @@
     "timer"
   ],
   "author": "Christian Kaisermann",
-  "license": "",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/kaisermann/textLooper/issues"
+    "url": "https://github.com/kaisermann/textlooper/issues"
   },
   "scripts": {
     "test": "mocha test"

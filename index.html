@@ -32,17 +32,71 @@
 
     <div id="loops">
       <div id="random-loops"></div>
-      <div class="label">Default in-animation (fadeIn), default delay (1500), default separator (,)</div>
-    
-      <span data-textloop="2000" data-textloop-in="bounceIn" data-textloop-out="slideOutDown">
+      <div class="label">Default animation (fadeIn), default delay (1500), default separator (,)</div>
+      <span data-textlooper>
         Default, Phrase 1, Phrase 2, Phrase 3
+      </span>
+
+      <div class="label">Same animation as above but with its comeback animations</div>
+      <span data-textlooper data-textlooper-comeback>
+        Default, Phrase 1, Phrase 2, Phrase 3
+      </span>
+
+      <div class="label">Same animation as above but with default out animation (fadeOut)</div>
+      <span data-textlooper data-textlooper-out>
+        Default, Phrase 1, Phrase 2, Phrase 3
+      </span>
+
+      <div class="label">Default animation (fadeIn), default delay (1500), default separator (,)</div>
+      <span data-textlooper>
+        Default, Phrase 1, Phrase 2, Phrase 3
+      </span>
+
+      <div class="label">Default animation (fadeIn), default delay (1500), custom separator (|)</div>
+      <span data-textlooper data-textlooper-separator="|">
+        Let's, Change | The, Separator | He he
+      </span>
+
+      <div class="label">Default animation (fadeIn), one delay (1000), custom separator (|)</div>
+      <span data-textlooper="1000" data-textlooper-separator="|">
+        This | will | wait | one | second
+      </span>
+
+      <div class="label">Default animation (fadeIn), multiple delays</div>
+      <span data-textlooper="500|500|500|500|1000">
+        Multiple, delays, one, default, animation
+      </span>
+
+      <div class="label">Default delay (1500), one animation (bounceIn)</div>
+      <span data-textlooper data-textlooper-in="bounceIn">
+        Default, delay, one, custom, animation
+      </span>
+
+      <div class="label">Default delay (1500), multiple animations</div>
+      <span data-textlooper data-textlooper-in="pulse|fadeIn|swing|fadeOut|bounceIn">
+        Multiple, animations, one, default, delay
+      </span>
+
+      <div class="label">One delay (1000), multiple animations</div>
+      <span data-textlooper="1000" data-textlooper-in="pulse|fadeIn|swing|slideInLeft">
+        Multiple, animations, one, delay
+      </span>
+
+      <div class="label">Multiple animations, multiple delays</div>
+      <span data-textlooper="500|500|500|500|1000" data-textlooper-in="pulse|fadeIn|swing|slideInUp">
+        Multiple, animations, on, this, one
+      </span>
+
+      <div class="label">Multiple animations, multiple delays with comebacks</div>
+      <span data-textlooper="500|500|500|500|1000" data-textlooper-in="pulse|fadeIn|swing|slideInUp" data-textlooper-comeback>
+        Multiple, animations, on, this, one
       </span>
     </div>
 
     <script src="dist/textLooper.js"></script>
     <script>
-      TextLooper.setDefaultDelay(1000);
-      TextLooper.refresh();
+      TextLooper.setDefaults({delay: 1000});
+      TextLooper.seek();
       var animations = [
           "pulse", "fadeIn", "swing", "fadeOut", "bounceIn"
         ],
@@ -53,11 +107,11 @@
           animationOut = animations[Math.floor(Math.random() * (animations.length))],
           span = document.createElement("span");
 
-        span.innerHTML = '<span data-textloop data-textloop-in="' + animationIn + '" data-textloop-out="' + animationOut + '">Random, animation, thingie, here,</span>';
+        span.innerHTML = '<span data-textlooper data-textlooper-in="' + animationIn + '" data-textlooper-out="' + animationOut + '">Random, animation, thingie, here,</span>';
 
         loopsWrapper.appendChild(span);
       });
-      document.getElementById('btn-refresh').addEventListener('click', TextLooper.refresh)
+      document.getElementById('btn-refresh').addEventListener('click', TextLooper.seek)
     </script>
   </body>
 </html>
