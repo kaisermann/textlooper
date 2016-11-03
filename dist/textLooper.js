@@ -41,8 +41,6 @@
         delays: []
       }, optionsObj) : parseAttributes());
 
-      console.log(_this.attributes);
-
       if(_this.attributes.comebackAsOut && !addedReverseCSS) {
         var css = '.' + defaults.reverseClass + '{';
         prefixes.forEach(function (prefix) {
