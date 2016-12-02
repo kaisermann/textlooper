@@ -249,4 +249,4 @@ IE 10, Webkit 4.0, Firefox 16, Opera 15
 
 # Bonus credits
 
-* [Vitor Paladini](https://github.com/vtrpldn) for naming the `data-textlooper-comeback` attribute. (It was really hard to come with a name for it and he mockingly requested for credits, so here we are).
+* [Vitor Paladini](https://github.com/vtrpldn) for naming the `data-textlooper-comeback` attribute. (It was really hard to come up with a name for it and he mockingly requested for credits, so here we are).
