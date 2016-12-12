@@ -78,7 +78,7 @@ new TextLooper(node, {
             </td>
             <td>
                 <code>String</code>: a single in-animation for all iterations.
-                <br> <code>Array</code>: customizable in-animations to each iteration.
+                <br> <code>Array</code>: customizable in-animations for each iteration.
             </td>
         </tr>
         <tr>
@@ -87,7 +87,7 @@ new TextLooper(node, {
             </td>
             <td>
                 <code>String</code>: a single out-animation for all iterations.
-                <br> <code>Array</code>: customizable out-animations to each iteration.
+                <br> <code>Array</code>: customizable out-animations for each iteration.
             </td>
         </tr>
         <tr>
@@ -96,7 +96,7 @@ new TextLooper(node, {
             </td>
             <td>
                 <code>Integer</code>: a single delay interval for all iterations.
-                <br> <code>Array</code>: customizable delay intervals to each iteration.
+                <br> <code>Array</code>: customizable delay intervals for each iteration.
             </td>
         </tr>
         <tr>
@@ -114,7 +114,7 @@ new TextLooper(node, {
 
 ## Visibility
 
-LoopText sets 'visibility: visible' when it loops. This way you can hide your phrases before the script runs with a 'visibility: hidden' statement.
+LoopText sets 'visibility: visible' when it starts looping. This way you can hide your phrases before the script runs with a 'visibility: hidden' statement.
 
 ## Delay interval behaviour
 
