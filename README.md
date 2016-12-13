@@ -3,6 +3,8 @@
 * A very customizable and lightweight (1.35kB gzipped) text content looper based on CSS animations.
 * This script uses `@keyframe` animations. That said, I highly recommend using [**Animate.css**](https://daneden.github.io/animate.css/).
 
+### [Sample/Demo](http://10de10.com.br/404)
+
 # How to use
 
 ## Using html attributes
