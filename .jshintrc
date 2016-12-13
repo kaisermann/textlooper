@@ -1,0 +1,7 @@
+{
+  "esversion": 6,
+  "eqeqeq": true,
+  "module": true,
+  "browser": true,
+  "predef": ["module"]
+}

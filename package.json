@@ -1,6 +1,6 @@
 {
   "name": "textlooper",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Text content rotation",
   "main": "dist/textlooper.js",
   "repository": {
@@ -25,6 +25,7 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "gulp": "^3.9.0",
+    "gulp-buble": "^0.8.0",
     "gulp-jshint": "^2.0.1",
     "gulp-load-plugins": "^1.0.0-rc.1",
     "gulp-plumber": "^1.1.0",

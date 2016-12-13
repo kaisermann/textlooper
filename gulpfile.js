@@ -15,7 +15,7 @@ gulp.task('lint', function () {
 gulp.task('build', function () {
   return gulp.src('./src/_main.js')
     .pipe($.plumber())
-    .pipe($.preprocess())
+    .pipe($.buble())
     //.pipe($.stripComments())
     .pipe($.rename(name + '.js'))
     .pipe($.size({
