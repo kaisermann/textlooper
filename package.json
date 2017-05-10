@@ -24,18 +24,18 @@
   "dependencies": {},
   "devDependencies": {
     "chai": "^3.5.0",
-    "gulp": "^3.9.0",
+    "gulp": "^3.9.1",
     "gulp-buble": "^0.8.0",
-    "gulp-jshint": "^2.0.1",
-    "gulp-load-plugins": "^1.0.0-rc.1",
+    "gulp-jshint": "^2.0.4",
+    "gulp-load-plugins": "^1.5.0",
     "gulp-plumber": "^1.1.0",
     "gulp-rename": "^1.2.2",
-    "gulp-size": "^2.0.0",
-    "gulp-strip-comments": "^2.4.3",
-    "gulp-uglify": "^2.0.0",
-    "jsdom": "9.5.0",
-    "jsdom-global": "2.1.0",
-    "jshint": "^2.9.3",
-    "mocha": "^3.1.0"
+    "gulp-size": "^2.1.0",
+    "gulp-strip-comments": "^2.4.5",
+    "gulp-uglify": "^2.1.2",
+    "jsdom": "10.1.0",
+    "jsdom-global": "3.0.2",
+    "jshint": "^2.9.4",
+    "mocha": "^3.3.0"
   }
 }
